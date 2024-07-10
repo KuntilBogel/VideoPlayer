@@ -36,13 +36,14 @@ let subtitle = params.get("subtitlelink"),
     started = false
 if (vid_link) {
     document.querySelector("#main_vid").src = vid_link;
-    fetch(vid_link).then(response => {
+    fetch(vid_link, { method: 'HEAD' }).then(response => {
         if (!response.ok) throw new Error(response.status);
     }).catch(e => {
         JSAlert.alert(e + "\nWhile loading video", null, JSAlert.Icons.Failed);
         document.querySelector("#main_vid").src = backup_vidlink
     })
 }
+
 let vidhash = (await sha256(vid_link)).slice(0, 10)
 if (subtitle) {
     fetch(subtitle).then(async p => {
